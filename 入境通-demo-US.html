@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>入境通 Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --orange:#f5810a;
+  --orange-dark:#d96e00;
+  --green-wechat:#07c160;
+  --blue-alipay:#1677ff;
+  --yellow-meituan:#ffc107;
+  --orange-didi:#ff6600;
+  --red:#e53935;
+  --bg:#f2f2f7;
+}
+body{
+  font-family:'Inter','Noto Sans SC',sans-serif;
+  background:#111;
+  display:flex;
+  justify-content:center;
+  min-height:100vh;
+}
+
+/* Phone shell */
+.device{
+  width:375px;max-width:100vw;
+  background:#000;
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+}
+
+/* iOS-style status bar */
+.statusbar{
+  height:44px;
+  background:#000;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  padding:0 24px 6px;
+  font-size:12px;
+  font-weight:600;
+  color:#fff;
+  font-family:'JetBrains Mono',monospace;
+  position:sticky;top:0;z-index:999;
+}
+.statusbar .notch{
+  width:120px;height:28px;
+  background:#000;
+  border-radius:0 0 18px 18px;
+  position:absolute;
+  top:0;left:50%;transform:translateX(-50%);
+}
+
+/* Screens */
+.scr{display:none;min-height:calc(100vh - 44px);position:relative}
+.scr.on{display:block}
+
+/* ==================== */
+/* STEP 1: ARRIVAL      */
+/* ==================== */
+.arrival{
+  background:linear-gradient(180deg,#1a1a2e 0%,#16213e 100%);
+  color:#fff;padding:32px 24px;
+  text-align:center;
+}
+.arrival-plane{font-size:64px;margin-bottom:16px;animation:land 2s ease-out}
+@keyframes land{0%{transform:translateY(-40px) scale(0.8);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+.arrival h2{font-size:20px;font-weight:800;margin-bottom:8px}
+.arrival .emma-says{
+  background:rgba(255,255,255,0.08);
+  border-radius:16px;padding:16px;margin:20px 0;
+  font-size:14px;line-height:1.6;text-align:left;
+  border-left:3px solid var(--orange);
+}
+.arrival .emma-says .name{color:var(--orange);font-weight:700;font-size:12px;margin-bottom:4px}
+.arrival .find-counter{
+  background:var(--orange);color:#fff;
+  border-radius:12px;padding:14px 20px;
+  font-weight:700;font-size:15px;
+  display:flex;align-items:center;gap:10px;
+  justify-content:center;margin:20px 0 12px;
+}
+.arrival .lang-note{font-size:12px;color:rgba(255,255,255,0.5)}
+.arrival .nxt{
+  background:#fff;color:#111;
+  border:none;border-radius:14px;
+  padding:16px;width:100%;
+  font-family:inherit;font-size:16px;font-weight:700;
+  cursor:pointer;margin-top:24px;
+}
+.arrival .nxt:active{transform:scale(0.97)}
+
+/* ==================== */
+/* STEP 2: COUNTER      */
+/* ==================== */
+.counter{background:var(--bg);padding:20px}
+.counter-header{
+  background:var(--orange);
+  margin:-20px -20px 20px;
+  padding:20px 24px;
+  color:#fff;
+  display:flex;align-items:center;gap:12px;
+}
+.counter-header h3{font-size:18px;font-weight:800}
+.counter-logo{
+  width:40px;height:40px;background:#fff;
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+}
+.scan-anim{
+  background:#fff;border-radius:16px;padding:20px;
+  text-align:center;margin-bottom:12px;
+  border:2px dashed #ddd;
+}
+.scan-anim .passport-icon{font-size:48px;margin-bottom:8px}
+.scan-anim h4{font-size:16px;font-weight:700;color:#222}
+.scan-anim p{font-size:13px;color:#888;margin-top:4px}
+.scan-progress{
+  background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;
+}
+.prog-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;font-size:14px;color:#222;
+}
+.prog-item .dot{
+  width:24px;height:24px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:#fff;flex-shrink:0;
+}
+.dot-done{background:var(--green-wechat)}
+.dot-wait{background:#ddd}
+.prog-item .detail{font-size:11px;color:#999;margin-top:1px}
+.charge-card{
+  background:#fff;border-radius:16px;padding:16px;margin-bottom:16px;
+}
+.charge-row{display:flex;justify-content:space-between;font-size:14px;color:#444;margin-bottom:6px}
+.charge-row.total{border-top:2px solid #f0f0f0;padding-top:10px;margin-top:4px;font-weight:800;font-size:16px;color:#111}
+.btn-orange{
+  background:var(--orange);color:#fff;border:none;
+  border-radius:14px;padding:16px;width:100%;
+  font-family:inherit;font-size:16px;font-weight:700;
+  cursor:pointer;
+}
+.btn-orange:active{transform:scale(0.97)}
+
+/* ==================== */
+/* STEP 3: HOME SCREEN  */
+/* ==================== */
+.homescreen{
+  background:#000;
+  padding:0;
+  min-height:calc(100vh - 44px);
+  position:relative;
+}
+.wallpaper{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,#1a1128 0%,#0d1b2a 40%,#1b2838 100%);
+  z-index:0;
+}
+.hs-content{position:relative;z-index:1;padding:16px 20px 100px}
+.hs-date{color:rgba(255,255,255,0.5);font-size:12px;font-weight:500;text-align:center;margin-bottom:2px}
+.hs-time{color:#fff;font-size:48px;font-weight:300;text-align:center;letter-spacing:-2px;margin-bottom:20px}
+
+/* Wallet widget on home */
+.hs-wallet{
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:20px;padding:16px;margin-bottom:20px;
+  color:#fff;cursor:pointer;
+}
+.hs-wallet:active{background:rgba(255,255,255,0.15)}
+.hs-wallet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.hs-wallet-brand{font-size:13px;font-weight:700;color:var(--orange)}
+.hs-wallet-amount{font-size:32px;font-weight:800;letter-spacing:-1px}
+.hs-wallet-usd{font-size:12px;color:rgba(255,255,255,0.5)}
+
+.app-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px 12px;
+  margin-bottom:24px;
+}
+.app-cell{text-align:center;cursor:pointer}
+.app-cell:active{transform:scale(0.88);transition:transform 0.1s}
+.app-ico{
+  width:60px;height:60px;
+  border-radius:15px;
+  margin:0 auto 5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+  position:relative;
+}
+.app-badge{
+  position:absolute;top:-4px;right:-4px;
+  background:var(--red);color:#fff;
+  font-size:9px;font-weight:700;
+  min-width:18px;height:18px;
+  border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 4px;
+}
+.app-lbl{font-size:11px;color:rgba(255,255,255,0.8);font-weight:500}
+
+/* dock */
+.hs-dock{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:375px;max-width:100vw;
+  padding:8px 20px 24px;
+  z-index:50;
+}
+.dock-inner{
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(30px);
+  -webkit-backdrop-filter:blur(30px);
+  border-radius:28px;
+  padding:10px 16px;
+  display:flex;justify-content:space-around;
+}
+.dock-cell{cursor:pointer}
+.dock-cell:active{transform:scale(0.88)}
+.dock-ico{
+  width:52px;height:52px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* ==================== */
+/* DIDI SCREEN          */
+/* ==================== */
+.didi-scr{background:#f5f5f5}
+.didi-top{
+  background:var(--orange-didi);
+  padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+  color:#fff;
+}
+.didi-top h3{font-size:17px;font-weight:700}
+.bk{
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(255,255,255,0.2);border:none;
+  color:#fff;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.bk-dark{background:#f0f0f0;color:#333}
+
+/* Map area */
+.didi-map{
+  height:220px;
+  background:#e8e0d0;
+  position:relative;
+  overflow:hidden;
+}
+.didi-map svg{width:100%;height:100%}
+.map-road{stroke:#c8bfb0;stroke-width:8;fill:none;stroke-linecap:round}
+.map-road2{stroke:#d4cdc0;stroke-width:4;fill:none;stroke-linecap:round}
+.map-water{fill:#b8d4e3}
+.map-green{fill:#c5d9a4}
+.pin{position:absolute;font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.pin-a{top:30%;left:25%}
+.pin-b{top:60%;right:20%}
+.route-label{
+  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,0.95);
+  border-radius:20px;padding:6px 16px;
+  font-size:12px;font-weight:600;color:#333;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  white-space:nowrap;
+}
+
+.didi-body{padding:16px}
+.ride-opt{
+  background:#fff;border-radius:14px;
+  padding:14px 16px;margin-bottom:8px;
+  display:flex;justify-content:space-between;align-items:center;
+  border:2px solid transparent;
+  cursor:pointer;
+}
+.ride-opt.sel{border-color:var(--orange-didi)}
+.ride-opt:active{background:#fafafa}
+.ro-left h4{font-size:15px;font-weight:700;color:#222}
+.ro-left p{font-size:12px;color:#999;margin-top:2px}
+.ro-right{text-align:right}
+.ro-price{font-size:22px;font-weight:900;color:#222}
+.ro-usd{font-size:11px;color:#aaa}
+
+.pay-bar{
+  background:#fff;border-radius:12px;
+  padding:10px 14px;margin:10px 0;
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:#666;
+}
+.pay-bar .tag{
+  background:#fff3e0;color:var(--orange);
+  font-size:10px;font-weight:700;
+  padding:3px 8px;border-radius:6px;
+  margin-left:auto;
+}
+.btn-didi{background:var(--orange-didi);color:#fff;border:none;border-radius:14px;padding:16px;width:100%;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer}
+.btn-didi:active{transform:scale(0.97)}
+
+/* Driver found */
+.driver-card{
+  background:#fff;border-radius:16px;padding:16px;margin-top:12px;
+  display:flex;gap:14px;align-items:center;
+}
+.driver-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--orange-didi);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+}
+.driver-info h4{font-size:15px;font-weight:700;color:#222}
+.driver-info p{font-size:12px;color:#888}
+.driver-plate{
+  background:#2196f3;color:#fff;
+  font-size:13px;font-weight:700;
+  padding:4px 10px;border-radius:6px;
+  margin-left:auto;
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* ==================== */
+/* MEITUAN SCREEN       */
+/* ==================== */
+.mt-scr{background:#f5f5f5}
+.mt-top{
+  background:#fff;
+  padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid #eee;
+}
+.mt-top h3{font-size:17px;font-weight:700;color:#222}
+.mt-search{
+  background:#f5f5f5;border-radius:20px;
+  padding:10px 16px;margin:12px 16px;
+  font-size:14px;color:#aaa;
+  display:flex;align-items:center;gap:8px;
+}
+.mt-cats{
+  display:flex;gap:0;padding:0 8px;margin-bottom:12px;
+  overflow-x:auto;
+}
+.mt-cat{
+  flex:0 0 auto;
+  text-align:center;padding:8px 14px;
+  font-size:12px;color:#666;font-weight:600;
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+}
+.mt-cat.act{color:var(--orange);border-bottom-color:var(--orange)}
+.mt-body{padding:0 16px 100px}
+.food-card{
+  background:#fff;border-radius:14px;
+  margin-bottom:10px;overflow:hidden;
+  display:flex;cursor:pointer;
+}
+.food-card:active{background:#fafafa}
+.food-thumb{
+  width:100px;height:100px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:44px;flex-shrink:0;
+}
+.food-detail{padding:12px;flex:1}
+.food-detail h4{font-size:15px;font-weight:700;color:#222}
+.food-detail .shop{font-size:12px;color:#888;margin-top:2px}
+.food-detail .meta{font-size:11px;color:#bbb;margin-top:4px}
+.food-detail .price{font-size:18px;font-weight:900;color:var(--red);margin-top:6px}
+.food-detail .price span{font-size:11px;font-weight:400;color:#aaa;margin-left:4px}
+.order-badge{
+  background:var(--orange);color:#fff;
+  font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:4px;
+  display:inline-block;margin-top:4px;
+}
+
+/* ==================== */
+/* WECHAT SCREEN        */
+/* ==================== */
+.wx-scr{background:#ededed}
+.wx-top{
+  background:#2e2e2e;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
+  color:#fff;
+}
+.wx-top h3{font-size:16px;font-weight:600}
+.wx-body{padding:16px;padding-bottom:100px}
+.bubble-row{margin-bottom:14px;display:flex;flex-direction:column}
+.bubble-row.them{align-items:flex-start}
+.bubble-row.me{align-items:flex-end}
+.sender{font-size:11px;color:#888;margin-bottom:4px;padding:0 4px}
+.bubble{
+  max-width:78%;padding:10px 14px;
+  border-radius:14px;font-size:14px;
+  line-height:1.55;
+}
+.bubble-them{background:#fff;color:#222;border-bottom-left-radius:4px}
+.bubble-me{background:#95ec69;color:#222;border-bottom-right-radius:4px}
+.translate-hint{
+  font-size:11px;color:#999;
+  margin-top:4px;font-style:italic;
+  padding-left:4px;
+  border-left:2px solid #ddd;
+}
+.wx-pay-card{
+  background:#fff;border-radius:14px;
+  padding:14px;margin-top:12px;
+  border-left:3px solid var(--green-wechat);
+}
+.wx-pay-card h4{font-size:14px;font-weight:700;color:#222}
+.wx-pay-card p{font-size:12px;color:#888;margin-top:4px}
+.wx-pay-card .amt{font-size:24px;font-weight:900;color:var(--green-wechat);margin-top:4px}
+.wx-pay-card .usd{font-size:12px;color:#999}
+
+/* ==================== */
+/* ALIPAY / SCAN SCREEN */
+/* ==================== */
+.ap-scr{background:#fff}
+.ap-top{
+  background:var(--blue-alipay);
+  padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+  color:#fff;
+}
+.ap-top h3{font-size:17px;font-weight:700}
+.ap-body{padding:20px;text-align:center}
+.viewfinder{
+  width:240px;height:240px;margin:16px auto;
+  position:relative;
+  border-radius:20px;
+  background:#f5f5f5;
+  cursor:pointer;
+}
+.viewfinder:active{background:#eee}
+.vf-corner{
+  position:absolute;width:28px;height:28px;
+  border-color:var(--blue-alipay);border-style:solid;
+}
+.vf-tl{top:0;left:0;border-width:3px 0 0 3px;border-radius:6px 0 0 0}
+.vf-tr{top:0;right:0;border-width:3px 3px 0 0;border-radius:0 6px 0 0}
+.vf-bl{bottom:0;left:0;border-width:0 0 3px 3px;border-radius:0 0 0 6px}
+.vf-br{bottom:0;right:0;border-width:0 3px 3px 0;border-radius:0 0 6px 0}
+.scan-beam{
+  position:absolute;width:80%;left:10%;
+  height:2px;background:var(--blue-alipay);
+  animation:beam 2s ease-in-out infinite;
+  opacity:0.5;
+}
+@keyframes beam{0%,100%{top:12%}50%{top:85%}}
+.vf-icon{font-size:36px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.scan-txt{font-size:18px;font-weight:700;color:#222;margin-bottom:4px}
+.scan-sub{font-size:13px;color:#999}
+.scan-hint{
+  background:#e3f2fd;border-radius:12px;
+  padding:14px;margin-top:20px;text-align:left;
+  font-size:13px;color:#333;line-height:1.6;
+}
+.scan-hint strong{color:var(--blue-alipay)}
+
+/* ==================== */
+/* RETURN SCREEN        */
+/* ==================== */
+.ret-scr{background:var(--bg);padding:20px;padding-bottom:100px}
+.ret-head{text-align:center;margin-bottom:24px}
+.ret-head .icon{font-size:56px}
+.ret-head h2{font-size:22px;font-weight:900;color:#111;margin-top:8px}
+.ret-card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px}
+.ret-card h4{font-size:14px;font-weight:700;color:#111;margin-bottom:10px}
+.ret-row{display:flex;justify-content:space-between;font-size:14px;color:#444;margin-bottom:6px}
+.ret-row.total{border-top:2px solid #f0f0f0;padding-top:10px;margin-top:4px;font-weight:800;font-size:17px;color:#111}
+.ret-box{border-radius:14px;padding:14px;margin-bottom:10px}
+.ret-green{background:#f0fdf4}
+.ret-green h4{font-size:14px;font-weight:700;color:#16a34a}
+.ret-green p{font-size:12px;color:#888;margin-top:4px}
+.ret-red{background:#fef2f2}
+.ret-red h4{font-size:14px;font-weight:700;color:#dc2626}
+.ret-red p{font-size:12px;color:#888;margin-top:4px}
+.emma-quote{
+  background:#fff;border-radius:14px;padding:16px;
+  border-left:3px solid var(--orange);margin-bottom:16px;
+}
+.emma-quote .name{font-size:12px;font-weight:700;color:var(--orange);margin-bottom:4px}
+.emma-quote p{font-size:14px;color:#333;line-height:1.6;font-style:italic}
+
+.btn-gray{background:#888;color:#fff;border:none;border-radius:14px;padding:16px;width:100%;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer}
+
+/* ==================== */
+/* OVERLAYS             */
+/* ==================== */
+.ov{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:500;
+  justify-content:center;align-items:center;
+}
+.ov.show{display:flex}
+.ov-card{
+  background:#fff;border-radius:24px;
+  padding:32px 24px;text-align:center;
+  max-width:300px;width:90%;
+  animation:pop 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes pop{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.ov-icon{font-size:48px;margin-bottom:12px}
+.ov-title{font-size:20px;font-weight:900;color:#111;margin-bottom:8px}
+.ov-desc{font-size:14px;color:#666;line-height:1.6;margin-bottom:20px}
+.ov-btn{
+  border:none;border-radius:12px;
+  padding:14px 32px;
+  font-family:inherit;font-size:15px;font-weight:700;
+  cursor:pointer;color:#fff;
+}
+</style>
+</head>
+<body>
+<div class="device">
+
+<div class="statusbar">
+  <span>China Unicom 5G</span>
+  <div class="notch"></div>
+  <span>94%🔋</span>
+</div>
+
+<!-- ====== STEP 1: ARRIVAL ====== -->
+<div class="scr on" id="s-arrival">
+<div class="arrival">
+  <div class="arrival-plane">✈️</div>
+  <h2>Welcome to China!</h2>
+  <p style="color:rgba(255,255,255,0.6);font-size:14px">Beijing Capital International Airport</p>
+
+  <div class="emma-says">
+    <div class="name">🇺🇸 Emma · From New York</div>
+    "I finally made it to China! But I have no local SIM, can't use Google Maps, and every store only takes WeChat Pay... How am I gonna survive?!"
+  </div>
+
+  <div class="find-counter">
+    <span style="font-size:22px">🏮</span>
+    Find the "入境通" counter in Arrivals Hall
+  </div>
+  <div class="lang-note">Show passport + credit card or cash · Default English system</div>
+
+  <button class="nxt" onclick="go('s-counter')">Walk to Counter →</button>
+</div>
+</div>
+
+<!-- ====== STEP 2: COUNTER ====== -->
+<div class="scr" id="s-counter">
+<div class="counter">
+  <div class="counter-header">
+    <div class="counter-logo">🏮</div>
+    <h3>入境通 · Passport Scan</h3>
+  </div>
+
+  <div class="scan-anim">
+    <div class="passport-icon">🛂</div>
+    <h4>Scanning passport...</h4>
+    <p>US Passport · EMMA WILSON · Auto-creating accounts</p>
+  </div>
+
+  <div class="scan-progress">
+    <div class="prog-item">
+      <div class="dot dot-done">✓</div>
+      <div>
+        <strong>DiDi account created</strong>
+        <div class="detail">Auto-registered with passport · English interface</div>
+      </div>
+    </div>
+    <div class="prog-item">
+      <div class="dot dot-done">✓</div>
+      <div>
+        <strong>Meituan account created</strong>
+        <div class="detail">Food delivery ready · English menu</div>
+      </div>
+    </div>
+    <div class="prog-item">
+      <div class="dot dot-done">✓</div>
+      <div>
+        <strong>Amap (高德) activated</strong>
+        <div class="detail">Navigation in English · works everywhere</div>
+      </div>
+    </div>
+    <div class="prog-item">
+      <div class="dot dot-done">✓</div>
+      <div>
+        <strong>WeChat + Alipay loaded</strong>
+        <div class="detail">¥680 balance each · Ready to scan & pay</div>
+      </div>
+    </div>
+    <div class="prog-item">
+      <div class="dot dot-done">✓</div>
+      <div>
+        <strong>China Unicom 5G SIM inserted</strong>
+        <div class="detail">Unlimited high-speed data · Same speed as locals</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="charge-card">
+    <div style="font-size:12px;font-weight:700;color:#999;text-transform:uppercase;margin-bottom:10px">Payment</div>
+    <div class="charge-row"><span>7-day rental (¥35/day)</span><span>¥245</span></div>
+    <div class="charge-row"><span>WeChat wallet load</span><span>¥680</span></div>
+    <div class="charge-row"><span>Alipay wallet load</span><span>¥680</span></div>
+    <div class="charge-row total"><span>Total</span><span>¥1,605 ≈ $221</span></div>
+    <div style="font-size:11px;color:#aaa;margin-top:6px">Visa •••• 4242 · Also accepts Mastercard & cash</div>
+  </div>
+
+  <button class="btn-orange" onclick="showOv('ov-activated')">Confirm & Activate ✓</button>
+</div>
+</div>
+
+<!-- ====== STEP 3: HOME SCREEN ====== -->
+<div class="scr" id="s-home">
+<div class="homescreen">
+  <div class="wallpaper"></div>
+  <div class="hs-content">
+    <div class="hs-date">Tuesday, April 14</div>
+    <div class="hs-time" id="bigtime">10:32</div>
+
+    <div class="hs-wallet" onclick="go('s-wallet')">
+      <div class="hs-wallet-top">
+        <span class="hs-wallet-brand">🏮 入境通 Wallet</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.4)">Tap to view →</span>
+      </div>
+      <div class="hs-wallet-amount">¥1,360</div>
+      <div class="hs-wallet-usd">≈ $187.85 · WeChat ¥680 + Alipay ¥680</div>
+    </div>
+
+    <div class="app-grid">
+      <div class="app-cell" onclick="go('s-didi')">
+        <div class="app-ico" style="background:var(--orange-didi)">🚕</div>
+        <div class="app-lbl">DiDi</div>
+      </div>
+      <div class="app-cell" onclick="go('s-meituan')">
+        <div class="app-ico" style="background:var(--yellow-meituan)">
+          🍜
+          <div class="app-badge">NEW</div>
+        </div>
+        <div class="app-lbl">Meituan</div>
+      </div>
+      <div class="app-cell" onclick="go('s-wechat')">
+        <div class="app-ico" style="background:var(--green-wechat)">
+          💬
+          <div class="app-badge">3</div>
+        </div>
+        <div class="app-lbl">WeChat</div>
+      </div>
+      <div class="app-cell" onclick="go('s-alipay')">
+        <div class="app-ico" style="background:var(--blue-alipay)">💳</div>
+        <div class="app-lbl">Alipay</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ico" style="background:#34a853">🗺️</div>
+        <div class="app-lbl">Amap</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ico" style="background:#4285f4">🔤</div>
+        <div class="app-lbl">Translate</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ico" style="background:#333">🔐</div>
+        <div class="app-lbl">VPN</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ico" style="background:#e91e63">✈️</div>
+        <div class="app-lbl">Trip.com</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ico" style="background:#00bcd4">🚇</div>
+        <div class="app-lbl">Metro</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ico" style="background:#ff5722">🎫</div>
+        <div class="app-lbl">Tickets</div>
+      </div>
+      <div class="app-cell">
+        <div class="app-ico" style="background:#f44336">📷</div>
+        <div class="app-lbl">TikTok</div>
+      </div>
+      <div class="app-cell" onclick="go('s-return')">
+        <div class="app-ico" style="background:#607d8b">🏮</div>
+        <div class="app-lbl">入境通</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hs-dock">
+    <div class="dock-inner">
+      <div class="dock-cell" onclick="go('s-didi')">
+        <div class="dock-ico" style="background:var(--orange-didi)">🚕</div>
+      </div>
+      <div class="dock-cell" onclick="go('s-wechat')">
+        <div class="dock-ico" style="background:var(--green-wechat)">💬</div>
+      </div>
+      <div class="dock-cell" onclick="go('s-alipay')">
+        <div class="dock-ico" style="background:var(--blue-alipay)">💳</div>
+      </div>
+      <div class="dock-cell" onclick="go('s-meituan')">
+        <div class="dock-ico" style="background:var(--yellow-meituan)">🍜</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== WALLET DETAIL ====== -->
+<div class="scr" id="s-wallet">
+<div style="background:var(--bg);padding:16px;min-height:calc(100vh - 44px)">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+    <button class="bk bk-dark" onclick="go('s-home')">←</button>
+    <h3 style="font-size:18px;font-weight:800;color:#111">🏮 入境通 Wallet</h3>
+  </div>
+
+  <div style="background:var(--green-wechat);border-radius:16px;padding:18px;color:#fff;margin-bottom:10px">
+    <div style="font-size:12px;opacity:0.7">WeChat Pay Balance</div>
+    <div style="font-size:36px;font-weight:900">¥680</div>
+    <div style="font-size:12px;opacity:0.6">≈ $93.92</div>
+  </div>
+
+  <div style="background:var(--blue-alipay);border-radius:16px;padding:18px;color:#fff;margin-bottom:16px">
+    <div style="font-size:12px;opacity:0.7">Alipay Balance</div>
+    <div style="font-size:36px;font-weight:900">¥680</div>
+    <div style="font-size:12px;opacity:0.6">≈ $93.92</div>
+  </div>
+
+  <div style="background:#fff;border-radius:16px;overflow:hidden">
+    <div style="padding:14px 16px;font-size:14px;font-weight:700;color:#111">Recent Transactions</div>
+    <div class="tx-item" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #f5f5f5">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fff3e0;display:flex;align-items:center;justify-content:center;font-size:20px">🚕</div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#222">DiDi · Airport → Hotel</div><div style="font-size:11px;color:#999">WeChat Pay · 11:15 AM</div></div>
+      <div style="text-align:right"><div style="font-size:15px;font-weight:700;color:var(--red)">-¥86</div><div style="font-size:10px;color:#aaa">~$11.88</div></div>
+    </div>
+    <div class="tx-item" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #f5f5f5">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fce4ec;display:flex;align-items:center;justify-content:center;font-size:20px">🍜</div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#222">Meituan · Bubble Tea</div><div style="font-size:11px;color:#999">Alipay · 12:40 PM</div></div>
+      <div style="text-align:right"><div style="font-size:15px;font-weight:700;color:var(--red)">-¥22</div><div style="font-size:10px;color:#aaa">~$3.04</div></div>
+    </div>
+    <div class="tx-item" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #f5f5f5">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fff8e1;display:flex;align-items:center;justify-content:center;font-size:20px">🍠</div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#222">Street Vendor · Roasted Sweet Potato</div><div style="font-size:11px;color:#999">WeChat QR · 3:20 PM</div></div>
+      <div style="text-align:right"><div style="font-size:15px;font-weight:700;color:var(--red)">-¥3.5</div><div style="font-size:10px;color:#aaa">~$0.48</div></div>
+    </div>
+    <div class="tx-item" style="display:flex;align-items:center;gap:12px;padding:12px 16px">
+      <div style="width:40px;height:40px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:20px">✅</div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#222">Initial Load · Visa</div><div style="font-size:11px;color:#999">At counter · 10:33 AM</div></div>
+      <div style="text-align:right"><div style="font-size:15px;font-weight:700;color:var(--green-wechat)">+¥1,360</div><div style="font-size:10px;color:#aaa">$187.85</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== DIDI ====== -->
+<div class="scr" id="s-didi">
+<div class="didi-scr">
+  <div class="didi-top">
+    <button class="bk" onclick="go('s-home')">←</button>
+    <h3>DiDi · 滴滴出行</h3>
+  </div>
+
+  <div class="didi-map">
+    <svg viewBox="0 0 375 220">
+      <rect class="map-water" x="260" y="0" width="115" height="220" rx="0"/>
+      <rect class="map-green" x="0" y="0" width="80" height="90" rx="20"/>
+      <rect class="map-green" x="180" y="140" width="60" height="80" rx="15"/>
+      <path class="map-road" d="M0,110 H375"/>
+      <path class="map-road" d="M140,0 V220"/>
+      <path class="map-road2" d="M0,60 H250"/>
+      <path class="map-road2" d="M200,0 V180"/>
+      <path class="map-road2" d="M80,160 H300"/>
+      <path d="M100,85 C140,85 160,130 220,160" stroke="var(--orange-didi)" stroke-width="3" fill="none" stroke-dasharray="6,4"/>
+    </svg>
+    <div class="pin pin-a">📍</div>
+    <div class="pin pin-b">🏨</div>
+    <div class="route-label">📍 Capital Airport T3 → Wangfujing Hotel · ~45 min</div>
+  </div>
+
+  <div class="didi-body">
+    <div class="ride-opt sel" id="ro1" onclick="selRide(this)">
+      <div class="ro-left">
+        <h4>🚗 Express (快车)</h4>
+        <p>~45 min · Most popular · Sedan</p>
+      </div>
+      <div class="ro-right">
+        <div class="ro-price">¥128</div>
+        <div class="ro-usd">≈ $17.68</div>
+      </div>
+    </div>
+    <div class="ride-opt" id="ro2" onclick="selRide(this)">
+      <div class="ro-left">
+        <h4>✨ Premier (专车)</h4>
+        <p>~40 min · English-speaking driver</p>
+      </div>
+      <div class="ro-right">
+        <div class="ro-price">¥218</div>
+        <div class="ro-usd">≈ $30.11</div>
+      </div>
+    </div>
+    <div class="ride-opt" id="ro3" onclick="selRide(this)">
+      <div class="ro-left">
+        <h4>🏎️ Luxe (豪华车)</h4>
+        <p>~40 min · Mercedes / BMW</p>
+      </div>
+      <div class="ro-right">
+        <div class="ro-price">¥358</div>
+        <div class="ro-usd">≈ $49.45</div>
+      </div>
+    </div>
+
+    <div class="pay-bar">
+      <span>💰</span>
+      <span>Paying with <b>WeChat Pay</b> · ¥680</span>
+      <span class="tag">No FX Fee</span>
+    </div>
+
+    <button class="btn-didi" onclick="showOv('ov-driver')">Confirm Ride · ¥128</button>
+  </div>
+</div>
+</div>
+
+<!-- ====== MEITUAN ====== -->
+<div class="scr" id="s-meituan">
+<div class="mt-scr">
+  <div class="mt-top">
+    <button class="bk bk-dark" onclick="go('s-home')">←</button>
+    <h3>Meituan · 美团外卖</h3>
+  </div>
+  <div class="mt-search">🔍 Search for food, drinks, groceries...</div>
+  <div class="mt-cats">
+    <div class="mt-cat act">Nearby</div>
+    <div class="mt-cat">Fast</div>
+    <div class="mt-cat">Noodles</div>
+    <div class="mt-cat">BBQ</div>
+    <div class="mt-cat">Bubble Tea</div>
+    <div class="mt-cat">Dumplings</div>
+  </div>
+  <div class="mt-body">
+    <div style="font-size:12px;color:#aaa;margin-bottom:10px">📍 Delivering to: Wangfujing Hotel, Rm 808 · 23 restaurants</div>
+
+    <div class="food-card" onclick="showOv('ov-food')">
+      <div class="food-thumb" style="background:#fff3e0">🥟</div>
+      <div class="food-detail">
+        <h4>Xiaolongbao 小笼包 ×8</h4>
+        <div class="shop">Din Tai Fung 鼎泰丰 · ⭐4.9</div>
+        <div class="meta">🕐 25-35 min · Free delivery</div>
+        <div class="price">¥68 <span>≈ $9.39</span></div>
+      </div>
+    </div>
+
+    <div class="food-card" onclick="showOv('ov-food')">
+      <div class="food-thumb" style="background:#f3e5f5">🧋</div>
+      <div class="food-detail">
+        <h4>Brown Sugar Boba 黑糖珍奶</h4>
+        <div class="shop">Heytea 喜茶 · ⭐4.7</div>
+        <div class="meta">🕐 15-20 min · ¥2 delivery</div>
+        <div class="price">¥22 <span>≈ $3.04</span></div>
+        <div class="order-badge">TOP SELLER</div>
+      </div>
+    </div>
+
+    <div class="food-card" onclick="showOv('ov-food')">
+      <div class="food-thumb" style="background:#fce4ec">🍜</div>
+      <div class="food-detail">
+        <h4>Hand-Pulled Noodles 兰州拉面</h4>
+        <div class="shop">Lanzhou Beef Noodle · ⭐4.8</div>
+        <div class="meta">🕐 20-30 min · Free delivery</div>
+        <div class="price">¥28 <span>≈ $3.87</span></div>
+      </div>
+    </div>
+
+    <div class="food-card" onclick="showOv('ov-food')">
+      <div class="food-thumb" style="background:#fff8e1">🦆</div>
+      <div class="food-detail">
+        <h4>Peking Duck Half 北京烤鸭</h4>
+        <div class="shop">Quanjude 全聚德 · ⭐4.6</div>
+        <div class="meta">🕐 40-50 min · Free delivery</div>
+        <div class="price">¥138 <span>≈ $19.06</span></div>
+      </div>
+    </div>
+
+    <div class="food-card" onclick="showOv('ov-food')">
+      <div class="food-thumb" style="background:#e8f5e9">🥢</div>
+      <div class="food-detail">
+        <h4>Mapo Tofu Set 麻婆豆腐</h4>
+        <div class="shop">Sichuan Kitchen · ⭐4.8</div>
+        <div class="meta">🕐 30 min · ¥3 delivery</div>
+        <div class="price">¥42 <span>≈ $5.80</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== WECHAT ====== -->
+<div class="scr" id="s-wechat">
+<div class="wx-scr">
+  <div class="wx-top">
+    <button class="bk" onclick="go('s-home')">←</button>
+    <h3>WeChat · Hotel Concierge</h3>
+  </div>
+  <div class="wx-body">
+    <div class="bubble-row them">
+      <div class="sender">Hotel Concierge 酒店礼宾</div>
+      <div class="bubble bubble-them">
+        欢迎入住王府井大饭店！我是小李，有任何需要请随时联系我 😊
+      </div>
+      <div class="translate-hint">🔄 Welcome to Wangfujing Hotel! I'm Xiao Li, feel free to reach out anytime 😊</div>
+    </div>
+
+    <div class="bubble-row me">
+      <div class="bubble bubble-me">Hi! Can you recommend somewhere to see the Great Wall tomorrow? 🏔️</div>
+    </div>
+
+    <div class="bubble-row them">
+      <div class="sender">Hotel Concierge 酒店礼宾</div>
+      <div class="bubble bubble-them">
+        推荐慕田峪长城，比八达岭人少风景更好！我可以帮您叫一辆滴滴专车，往返大约¥400。
+      </div>
+      <div class="translate-hint">🔄 I recommend Mutianyu — less crowded & more scenic than Badaling! I can arrange a DiDi Premier round-trip, ~¥400.</div>
+    </div>
+
+    <div class="bubble-row me">
+      <div class="bubble bubble-me">That would be amazing! Also where can I find good street food tonight? 🍢</div>
+    </div>
+
+    <div class="bubble-row them">
+      <div class="sender">Hotel Concierge 酒店礼宾</div>
+      <div class="bubble bubble-them">
+        王府井小吃街就在酒店旁边！烤红薯、糖葫芦、煎饼果子都值得试试。记得用微信扫码付款，很方便 👍
+      </div>
+      <div class="translate-hint">🔄 Wangfujing Snack Street is right next to the hotel! Try roasted sweet potato, tanghulu & jianbing. Just scan WeChat QR to pay 👍</div>
+    </div>
+
+    <div class="wx-pay-card" onclick="showOv('ov-wxpay')">
+      <h4>💰 WeChat Pay · Quick Send</h4>
+      <p>Tap to send a tip or split a bill</p>
+      <div class="amt">¥680.00</div>
+      <div class="usd">Available · Tap to scan & pay →</div>
+    </div>
+
+    <div style="background:#f0f7ff;border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#1565c0;line-height:1.5">
+      ✅ <b>Auto-translate ON</b> — All Chinese messages are instantly translated. Your English replies are shown as-is to the recipient.
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== ALIPAY / SCAN ====== -->
+<div class="scr" id="s-alipay">
+<div class="ap-scr">
+  <div class="ap-top">
+    <button class="bk" onclick="go('s-home')">←</button>
+    <h3>Alipay · 支付宝</h3>
+  </div>
+  <div class="ap-body">
+    <div class="scan-txt">Scan to Pay</div>
+    <div class="scan-sub">Point camera at any merchant QR code</div>
+
+    <div class="viewfinder" onclick="showOv('ov-scan')">
+      <div class="vf-corner vf-tl"></div>
+      <div class="vf-corner vf-tr"></div>
+      <div class="vf-corner vf-bl"></div>
+      <div class="vf-corner vf-br"></div>
+      <div class="scan-beam"></div>
+      <div class="vf-icon">📷</div>
+    </div>
+
+    <p style="color:#bbb;font-size:12px;margin-top:12px">Tap viewfinder to simulate a scan</p>
+
+    <div class="scan-hint">
+      <strong>💡 Works on ANY QR code in China</strong><br>
+      Street vendors · 7-Eleven · restaurants · metro · taxis · even grandma's roasted sweet potato stand 🍠
+    </div>
+
+    <div style="background:#fff;border-radius:14px;padding:14px;margin-top:12px;text-align:left">
+      <div style="font-size:12px;font-weight:700;color:var(--blue-alipay);margin-bottom:8px">Recent QR Payments</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div><div style="font-size:14px;font-weight:600;color:#222">🍠 Street vendor · Roasted sweet potato</div><div style="font-size:11px;color:#999">3:20 PM · WeChat QR</div></div>
+        <div style="font-size:15px;font-weight:700;color:var(--red)">¥3.5</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div><div style="font-size:14px;font-weight:600;color:#222">🚇 Beijing Metro · Line 1</div><div style="font-size:11px;color:#999">2:45 PM · Alipay Transit</div></div>
+        <div style="font-size:15px;font-weight:700;color:var(--red)">¥4</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-size:14px;font-weight:600;color:#222">☕ Luckin Coffee · 瑞幸咖啡</div><div style="font-size:11px;color:#999">1:00 PM · Alipay QR</div></div>
+        <div style="font-size:15px;font-weight:700;color:var(--red)">¥18</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====== RETURN ====== -->
+<div class="scr" id="s-return">
+<div class="ret-scr">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+    <button class="bk bk-dark" onclick="go('s-home')">←</button>
+    <h3 style="font-size:18px;font-weight:800;color:#111">🏮 入境通 · Return</h3>
+  </div>
+
+  <div class="ret-head">
+    <div class="icon">✈️</div>
+    <h2>Safe Travels, Emma!</h2>
+  </div>
+
+  <div class="emma-quote">
+    <div class="name">🇺🇸 Emma</div>
+    <p>"The internet and payments were SO convenient! I used WeChat to scan a QR code to buy a ¥3.5 roasted sweet potato from a grandma on the street, then live-streamed on Douyin to show my friends back home. The 5G was insanely fast!"</p>
+  </div>
+
+  <div class="ret-card">
+    <h4>📊 7-Day Trip Summary</h4>
+    <div class="ret-row"><span>🚕 DiDi rides × 9</span><span>¥862</span></div>
+    <div class="ret-row"><span>🍜 Meituan orders × 11</span><span>¥398</span></div>
+    <div class="ret-row"><span>📷 QR scan payments × 34</span><span>¥523</span></div>
+    <div class="ret-row"><span>🚇 Metro / bus rides × 18</span><span>¥67</span></div>
+    <div class="ret-row"><span>🎫 Tickets & attractions</span><span>¥260</span></div>
+    <div class="ret-row total"><span>Total Spent</span><span>¥2,110 ≈ $291</span></div>
+  </div>
+
+  <div class="ret-box ret-green">
+    <h4>💰 Remaining ¥250 refunded</h4>
+    <p>¥180 from WeChat + ¥70 from Alipay → $34.53 refunded to Visa •••• 4242 (or cash at counter)</p>
+  </div>
+
+  <div class="ret-box ret-red">
+    <h4>🔒 Remote factory reset — all data erased</h4>
+    <p>WeChat, Alipay, DiDi accounts logged out. Photos, messages, browsing history — permanently deleted. Compliant with China's PIPL.</p>
+  </div>
+
+  <div class="emma-quote">
+    <div class="name">🇺🇸 Emma</div>
+    <p>"Next time I come to China, I'm renting 入境通 again. It made the whole trip feel as easy as being home!"</p>
+  </div>
+
+  <button class="btn-gray" onclick="go('s-arrival')">↻ Restart Demo</button>
+</div>
+</div>
+
+</div><!-- /device -->
+
+<!-- ====== OVERLAYS ====== -->
+<div class="ov" id="ov-activated">
+  <div class="ov-card">
+    <div class="ov-icon">🎉</div>
+    <div class="ov-title">Phone Activated!</div>
+    <div class="ov-desc">All apps auto-logged in<br>WeChat ¥680 · Alipay ¥680<br>5G unlimited data · VPN ready<br><br><b>Welcome to China, Emma! 🇨🇳</b></div>
+    <button class="ov-btn" style="background:var(--orange)" onclick="closeOv('ov-activated');go('s-home')">See Home Screen →</button>
+  </div>
+</div>
+
+<div class="ov" id="ov-driver">
+  <div class="ov-card">
+    <div class="ov-icon">🚗</div>
+    <div class="ov-title">Driver Found!</div>
+    <div class="ov-desc">
+      <b>Li Wei 李伟</b><br>
+      Toyota Camry · <span style="font-family:'JetBrains Mono';background:#2196f3;color:#fff;padding:2px 8px;border-radius:4px;font-size:12px">京A·6K821</span><br>
+      ⏱ Arriving in 3 minutes<br>
+      💬 In-app English translator ready<br><br>
+      <small style="color:#999">Auto-paid via WeChat Pay · ¥128</small>
+    </div>
+    <button class="ov-btn" style="background:var(--orange-didi)" onclick="closeOv('ov-driver')">Got it!</button>
+  </div>
+</div>
+
+<div class="ov" id="ov-food">
+  <div class="ov-card">
+    <div class="ov-icon">🥟</div>
+    <div class="ov-title">Order Placed!</div>
+    <div class="ov-desc">Your food is being prepared 🍳<br>🕐 Estimated: 25-35 min<br>📍 Wangfujing Hotel, Rm 808<br><br><small style="color:#999">Paid via Alipay · ¥68</small></div>
+    <button class="ov-btn" style="background:var(--yellow-meituan);color:#222" onclick="closeOv('ov-food')">Track Order</button>
+  </div>
+</div>
+
+<div class="ov" id="ov-scan">
+  <div class="ov-card">
+    <div class="ov-icon">✅</div>
+    <div class="ov-title">Payment Success!</div>
+    <div class="ov-desc">
+      <b>🍠 Roasted Sweet Potato Stand</b><br>
+      Wangfujing Snack Street<br><br>
+      <span style="font-size:32px;font-weight:900;color:var(--green-wechat)">¥3.50</span><br>
+      <small style="color:#999">≈ $0.48 · WeChat QR Scan</small>
+    </div>
+    <button class="ov-btn" style="background:var(--blue-alipay)" onclick="closeOv('ov-scan')">Done ✓</button>
+  </div>
+</div>
+
+<div class="ov" id="ov-wxpay">
+  <div class="ov-card">
+    <div class="ov-icon">💚</div>
+    <div class="ov-title">WeChat Pay Ready</div>
+    <div class="ov-desc">
+      Balance: <b>¥680</b><br>
+      Show this QR to merchant, or scan theirs<br><br>
+      <div style="width:120px;height:120px;background:#f5f5f5;border-radius:12px;margin:8px auto;display:flex;align-items:center;justify-content:center;font-size:40px;border:2px solid #eee">📱</div>
+      <small style="color:#999">Your payment QR code</small>
+    </div>
+    <button class="ov-btn" style="background:var(--green-wechat)" onclick="closeOv('ov-wxpay')">Close</button>
+  </div>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function showOv(id){document.getElementById(id).classList.add('show')}
+function closeOv(id){document.getElementById(id).classList.remove('show')}
+function selRide(el){
+  document.querySelectorAll('.ride-opt').forEach(r=>r.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+// Clock
+function tick(){
+  const d=new Date();
+  const h=d.getHours().toString().padStart(2,'0');
+  const m=d.getMinutes().toString().padStart(2,'0');
+  const el=document.getElementById('bigtime');
+  if(el)el.textContent=h+':'+m;
+}
+tick();setInterval(tick,30000);
+</script>
+</body>
+</html>
