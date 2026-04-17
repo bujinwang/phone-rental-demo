@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>入境通 · 一场必要的辩论</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0e0e12;
+  --paper:#f5f1e8;
+  --paper-dark:#e8e2d2;
+  --orange:#f5810a;
+  --orange-dark:#c45e00;
+  --red:#b91c1c;
+  --red-dark:#7f1d1d;
+  --green:#15803d;
+  --blue:#1e3a8a;
+  --rule:#0e0e12;
+  --muted:#6b6558;
+  --accent:#8b1a1a;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Serif SC',Georgia,serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ========================= */
+/* NOISE / PAPER TEXTURE     */
+/* ========================= */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(139,26,26,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(245,129,10,0.04) 0%, transparent 50%);
+  pointer-events:none;
+  z-index:1;
+}
+body::after{
+  content:"";
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3' /%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:2;
+  opacity:0.6;
+}
+
+.wrap{position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:0 32px}
+
+/* ========================= */
+/* MASTHEAD                  */
+/* ========================= */
+.masthead{
+  border-bottom:3px double var(--ink);
+  padding:24px 0 16px;
+  margin-top:24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.masthead .date{font-family:'JetBrains Mono',monospace;letter-spacing:0.1em}
+.masthead .vol{font-family:'JetBrains Mono',monospace}
+
+/* HERO TITLE */
+.hero{
+  padding:48px 0 32px;
+  border-bottom:1px solid var(--ink);
+  position:relative;
+}
+.kicker{
+  display:inline-block;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.3em;
+  padding:6px 14px;
+  margin-bottom:24px;
+}
+.hero h1{
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:clamp(44px,8vw,112px);
+  line-height:0.95;
+  font-weight:900;
+  letter-spacing:-0.02em;
+  margin-bottom:20px;
+}
+.hero h1 .em{
+  font-style:italic;
+  color:var(--orange-dark);
+  font-weight:700;
+}
+.hero h1 .strike{
+  position:relative;
+  display:inline-block;
+}
+.hero h1 .strike::after{
+  content:"";
+  position:absolute;
+  left:-4px;right:-4px;
+  top:55%;
+  height:8px;
+  background:var(--red);
+  transform:rotate(-2deg);
+}
+.hero .subtitle{
+  font-size:clamp(16px,2vw,22px);
+  font-weight:400;
+  color:var(--ink);
+  max-width:820px;
+  line-height:1.5;
+  margin-top:28px;
+  font-family:'Noto Serif SC',serif;
+}
+.hero .byline{
+  margin-top:36px;
+  display:flex;
+  gap:40px;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;
+  color:var(--muted);
+  flex-wrap:wrap;
+}
+.hero .byline span strong{color:var(--ink);display:block;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:3px}
+
+/* ========================= */
+/* THE CHARGE (朋友的观点)   */
+/* ========================= */
+.charge{
+  margin-top:48px;
+  padding:40px;
+  background:var(--ink);
+  color:var(--paper);
+  position:relative;
+}
+.charge .label{
+  position:absolute;
+  top:-14px;
+  left:32px;
+  background:var(--orange);
+  color:var(--ink);
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:0.2em;
+  padding:6px 16px;
+}
+.charge .q{
+  font-family:'Playfair Display',serif;
+  font-size:96px;
+  line-height:0.8;
+  position:absolute;
+  top:24px;
+  right:40px;
+  color:var(--orange);
+  opacity:0.4;
+}
+.charge blockquote{
+  font-family:'Noto Serif SC',serif;
+  font-size:clamp(17px,2vw,22px);
+  line-height:1.65;
+  font-weight:400;
+  font-style:italic;
+  max-width:860px;
+  margin-bottom:16px;
+}
+.charge blockquote::first-letter{
+  font-size:1.4em;
+  font-weight:700;
+  color:var(--orange);
+  font-style:normal;
+}
+.charge .attr{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;
+  color:var(--orange);
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  margin-top:20px;
+}
+.charge .verdict{
+  margin-top:32px;
+  padding-top:24px;
+  border-top:1px solid rgba(245,241,232,0.2);
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:24px;
+  align-items:start;
+}
+.charge .verdict .tag{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:10px;
+  letter-spacing:0.3em;
+  color:var(--orange);
+  font-weight:700;
+}
+.charge .verdict p{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:14px;
+  line-height:1.7;
+  color:rgba(245,241,232,0.85);
+}
+
+@media (max-width:720px){
+  .charge .verdict{grid-template-columns:1fr}
+  .charge .q{font-size:64px;top:12px;right:24px}
+  .charge{padding:32px 24px}
+}
+
+/* ========================= */
+/* MARKET NUMBERS BAR        */
+/* ========================= */
+.numbers{
+  margin:56px 0 0;
+  padding:32px 0;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.num-cell{
+  padding:0 24px;
+  border-right:1px solid rgba(14,14,18,0.15);
+}
+.num-cell:last-child{border-right:none}
+.num-cell .big{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,4vw,56px);
+  font-weight:900;
+  line-height:1;
+  color:var(--ink);
+  letter-spacing:-0.02em;
+}
+.num-cell .big .u{
+  font-size:0.5em;
+  color:var(--orange-dark);
+  margin-left:4px;
+  font-weight:700;
+}
+.num-cell .lbl{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:8px;
+  line-height:1.4;
+}
+.num-cell .src{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  color:var(--muted);
+  margin-top:6px;
+  opacity:0.7;
+}
+@media (max-width:720px){
+  .numbers{grid-template-columns:repeat(2,1fr)}
+  .num-cell{padding:16px;border-bottom:1px solid rgba(14,14,18,0.15)}
+  .num-cell:nth-child(even){border-right:none}
+}
+
+/* ========================= */
+/* SECTION HEADER            */
+/* ========================= */
+.sec-head{
+  margin:96px 0 48px;
+  border-top:1px solid var(--ink);
+  padding-top:32px;
+}
+.sec-head .no{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--orange-dark);
+  letter-spacing:0.3em;
+  margin-bottom:8px;
+}
+.sec-head h2{
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:clamp(32px,4vw,52px);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-0.015em;
+}
+.sec-head .lead{
+  margin-top:16px;
+  font-size:clamp(15px,1.5vw,18px);
+  color:var(--muted);
+  max-width:720px;
+  line-height:1.6;
+}
+
+/* ========================= */
+/* REBUTTAL CARDS            */
+/* ========================= */
+.rebuttals{
+  display:grid;
+  gap:8px;
+  margin:48px 0;
+}
+.reb{
+  display:grid;
+  grid-template-columns:80px 1fr 1fr;
+  gap:0;
+  background:var(--paper);
+  border:1px solid var(--ink);
+  position:relative;
+  transition:transform 0.3s cubic-bezier(0.2,0.8,0.2,1);
+}
+.reb:hover{transform:translateX(-4px)}
+.reb-num{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Playfair Display',serif;
+  font-size:48px;
+  font-weight:900;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 0;
+  letter-spacing:-0.02em;
+}
+.reb-claim{
+  padding:28px 28px 28px 32px;
+  border-right:1px dashed rgba(14,14,18,0.25);
+  background:var(--paper-dark);
+}
+.reb-claim .tag{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:0.2em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.reb-claim .headline{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;
+  font-weight:700;
+  line-height:1.45;
+  color:var(--ink);
+}
+.reb-claim .quote{
+  margin-top:14px;
+  padding-left:12px;
+  border-left:2px solid var(--muted);
+  font-size:13px;
+  color:var(--muted);
+  font-style:italic;
+  line-height:1.5;
+}
+.reb-answer{
+  padding:28px 32px;
+  background:var(--paper);
+}
+.reb-answer .tag{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:0.2em;
+  color:var(--red);
+  text-transform:uppercase;
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.reb-answer .tag::before{
+  content:"";width:16px;height:2px;background:var(--red);display:inline-block;
+}
+.reb-answer .headline{
+  font-family:'Noto Serif SC',serif;
+  font-size:18px;
+  font-weight:700;
+  line-height:1.45;
+  color:var(--red-dark);
+  margin-bottom:12px;
+}
+.reb-answer p{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:14px;
+  line-height:1.75;
+  color:var(--ink);
+}
+.reb-answer p + p{margin-top:10px}
+.reb-answer .cite{
+  margin-top:16px;
+  padding:12px;
+  background:rgba(14,14,18,0.04);
+  border-left:3px solid var(--orange);
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;
+  line-height:1.65;
+  color:var(--ink);
+}
+.reb-answer .cite strong{color:var(--red-dark)}
+.reb-answer .cite .srctag{
+  display:block;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:6px;
+  letter-spacing:0.05em;
+}
+
+@media (max-width:900px){
+  .reb{grid-template-columns:60px 1fr}
+  .reb-claim{grid-column:2;border-right:none;border-bottom:1px dashed rgba(14,14,18,0.25)}
+  .reb-answer{grid-column:2}
+  .reb-num{font-size:36px}
+}
+
+/* ========================= */
+/* COST TABLE                */
+/* ========================= */
+.cost-box{
+  margin:48px 0;
+  border:1px solid var(--ink);
+  background:var(--paper);
+}
+.cost-box h3{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  padding:14px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.cost-box h3 .side{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--orange);
+  letter-spacing:0.1em;
+}
+.cost-table{
+  display:grid;
+  grid-template-columns:1.3fr 1fr 1fr 1.2fr;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:13px;
+}
+.cost-table > div{
+  padding:14px 18px;
+  border-bottom:1px solid rgba(14,14,18,0.12);
+  border-right:1px solid rgba(14,14,18,0.12);
+}
+.cost-table > div:nth-child(4n){border-right:none}
+.cost-table .hd{
+  background:var(--paper-dark);
+  font-weight:700;
+  font-size:10px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.cost-table .stage{
+  font-weight:700;
+  font-family:'Noto Serif SC',serif;
+  font-size:15px;
+}
+.cost-table .mvp{color:var(--green)}
+.cost-table .mid{color:var(--orange-dark)}
+.cost-table .moat{color:var(--red-dark)}
+.cost-table .num{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;
+  font-size:14px;
+}
+.cost-table .tiny{
+  font-size:11px;color:var(--muted);margin-top:2px;
+}
+
+@media (max-width:720px){
+  .cost-table{grid-template-columns:1fr 1fr;font-size:12px}
+  .cost-table > div{padding:10px 12px}
+  .cost-table .hd:nth-child(3),.cost-table .hd:nth-child(4){display:none}
+  .cost-table > div:nth-child(4n+3),
+  .cost-table > div:nth-child(4n+4){
+    background:rgba(14,14,18,0.03);
+    font-size:11px;
+  }
+}
+
+/* ========================= */
+/* COMPARISON: YOU vs FRIEND */
+/* ========================= */
+.vs-block{
+  margin:48px 0;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:0;
+  align-items:stretch;
+}
+.vs-col{
+  padding:32px;
+  border:1px solid var(--ink);
+}
+.vs-col.left{background:var(--paper-dark)}
+.vs-col.right{background:var(--ink);color:var(--paper);border-left:none}
+.vs-col h4{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  font-weight:700;
+  margin-bottom:16px;
+  color:var(--muted);
+}
+.vs-col.right h4{color:var(--orange)}
+.vs-col .title{
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:26px;
+  font-weight:900;
+  line-height:1.15;
+  margin-bottom:20px;
+  letter-spacing:-0.01em;
+}
+.vs-col ul{list-style:none;font-family:'Noto Sans SC',sans-serif;font-size:14px;line-height:1.7}
+.vs-col li{
+  padding:10px 0 10px 24px;
+  position:relative;
+  border-bottom:1px dashed rgba(14,14,18,0.2);
+}
+.vs-col.right li{border-bottom:1px dashed rgba(245,241,232,0.2)}
+.vs-col li::before{
+  content:"";
+  position:absolute;
+  left:0;top:18px;
+  width:12px;height:2px;
+  background:var(--muted);
+}
+.vs-col.right li::before{background:var(--orange)}
+.vs-divider{
+  background:var(--orange);
+  width:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:32px;
+  font-weight:900;
+  color:var(--ink);
+  font-style:italic;
+}
+@media (max-width:720px){
+  .vs-block{grid-template-columns:1fr}
+  .vs-col.right{border-left:1px solid var(--ink);border-top:none}
+  .vs-divider{width:100%;height:48px;font-size:24px}
+}
+
+/* ========================= */
+/* CLOSING ONE-LINER         */
+/* ========================= */
+.closing{
+  margin:96px 0 48px;
+  padding:64px 48px;
+  background:var(--ink);
+  color:var(--paper);
+  position:relative;
+  overflow:hidden;
+}
+.closing::before{
+  content:"";
+  position:absolute;
+  top:-40px;right:-40px;
+  width:280px;height:280px;
+  background:var(--orange);
+  border-radius:50%;
+  opacity:0.15;
+}
+.closing .tag{
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;
+  letter-spacing:0.3em;
+  color:var(--orange);
+  font-weight:700;
+  margin-bottom:28px;
+}
+.closing h3{
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:clamp(28px,3.5vw,48px);
+  font-weight:900;
+  line-height:1.2;
+  max-width:960px;
+  position:relative;
+  z-index:2;
+}
+.closing h3 em{color:var(--orange);font-style:italic}
+.closing .signer{
+  margin-top:40px;
+  display:flex;
+  gap:32px;
+  align-items:center;
+  flex-wrap:wrap;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;
+  color:rgba(245,241,232,0.6);
+}
+.closing .signer .line{
+  width:80px;height:1px;background:var(--orange);
+}
+
+/* ========================= */
+/* FOOTER                    */
+/* ========================= */
+.footer{
+  margin:64px 0 40px;
+  padding-top:24px;
+  border-top:1px solid var(--ink);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  flex-wrap:wrap;
+  gap:20px;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:0.1em;
+}
+.footer .sources{max-width:640px;line-height:1.7}
+.footer .sources strong{color:var(--ink);display:block;margin-bottom:6px;letter-spacing:0.2em;text-transform:uppercase}
+.footer .sources a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--muted)}
+
+/* ========================= */
+/* MARGIN NOTES              */
+/* ========================= */
+.pullquote{
+  margin:48px 0;
+  padding:32px 0;
+  border-top:2px solid var(--orange);
+  border-bottom:2px solid var(--orange);
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:clamp(22px,2.8vw,34px);
+  line-height:1.35;
+  font-weight:900;
+  font-style:italic;
+  text-align:center;
+  letter-spacing:-0.01em;
+}
+.pullquote em{color:var(--red-dark);font-style:italic}
+.pullquote .attr{
+  display:block;
+  margin-top:16px;
+  font-family:'Noto Sans SC',sans-serif;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:500;
+  font-style:normal;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+}
+
+/* animations */
+@keyframes fadeup{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reb{animation:fadeup 0.6s ease-out backwards}
+.reb:nth-child(1){animation-delay:0.05s}
+.reb:nth-child(2){animation-delay:0.1s}
+.reb:nth-child(3){animation-delay:0.15s}
+.reb:nth-child(4){animation-delay:0.2s}
+.reb:nth-child(5){animation-delay:0.25s}
+.reb:nth-child(6){animation-delay:0.3s}
+.reb:nth-child(7){animation-delay:0.35s}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <span class="date">二〇二六年四月 / No. 01</span>
+  <span class="vol">入境通 · 战略备忘录</span>
+  <span>Bert · 内部讨论稿</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="kicker">一场必要的辩论 · A Rebuttal</span>
+  <h1>
+    <span class="strike">200 万</span> 够吗？<br>
+    一个关于<span class="em">"不需要开发"</span>的<br>
+    思维跳跃。
+  </h1>
+  <p class="subtitle">
+    朋友说：找运营商合作，预装几个 App，再加一个 VPN，200 万足以把入境通跑起来。<br>
+    这份备忘录要证明：他看对了 <em>MVP</em>，但看错了 <em>护城河</em>。而两者的成本差一个数量级。
+  </p>
+  <div class="byline">
+    <span><strong>准备人</strong>Bert</span>
+    <span><strong>数据截止</strong>2026 年 4 月</span>
+    <span><strong>用途</strong>与合伙人的战略对话</span>
+    <span><strong>阅读时长</strong>12 分钟</span>
+  </div>
+</section>
+
+<!-- THE CHARGE -->
+<section class="charge">
+  <span class="label">朋友的原话 · The Objection</span>
+  <span class="q">"</span>
+  <blockquote>
+    研究下来我发现，你说的这个市场需求是存在的，但是，我看不到需要专门开发一款 APP 的必要性。我完全可以组建一家公司，找一家或两家运营商合作一款手机（他们拿出硬件），只需要把几个基础应用预安装进入（再增加预设一个 VPN 可供他们查看国际网络），美团、滴滴、支付宝、微信等提前做点注册激活简化，就能完美实现你说的需求。也就是说，完全不需要开发什么，只需要提供预设版手机租赁业务，这个业务就能顺利实现，这么算下来，用不了 500 万元，200 万元足够了。
+  </blockquote>
+  <div class="attr">— 合伙人 / 同行朋友，评 入境通 概念</div>
+
+  <div class="verdict">
+    <div>
+      <div class="tag">我方回应 · In One Line</div>
+    </div>
+    <p>
+      他说的每一个字，作为 <strong style="color:var(--orange)">MVP 第一步</strong> 都是对的。<br>
+      但他从"MVP 不用开发"跳到"永远不用开发"，这是一个<strong style="color:var(--orange)">致命的逻辑跳跃</strong>。
+      本文用七个论据 + 四组数据，拆解这个跳跃为什么站不住脚。
+    </p>
+  </div>
+</section>
+
+<!-- MARKET NUMBERS -->
+<section class="numbers">
+  <div class="num-cell">
+    <div class="big">3,008<span class="u">万</span></div>
+    <div class="lbl">2025 年免签入境<br>外国人次</div>
+    <div class="src">— 中国国家移民局</div>
+  </div>
+  <div class="num-cell">
+    <div class="big">$130<span class="u">B</span></div>
+    <div class="lbl">2025 年入境游客<br>消费总额</div>
+    <div class="src">— 中国文旅部</div>
+  </div>
+  <div class="num-cell">
+    <div class="big">¥800<span class="u">亿</span></div>
+    <div class="lbl">入境游客移动支付<br>消费规模（年）</div>
+    <div class="src">— 中国文旅部</div>
+  </div>
+  <div class="num-cell">
+    <div class="big">5,000<span class="u">万</span></div>
+    <div class="lbl">文旅部 2027 年<br>免签入境目标</div>
+    <div class="src">— 官方规划</div>
+  </div>
+</section>
+
+<!-- SECTION 1: THE SEVEN REBUTTALS -->
+<div class="sec-head">
+  <div class="no">PART I · 七点反驳</div>
+  <h2>为什么"预装方案"<br>撑不起这门生意？</h2>
+  <p class="lead">
+    朋友的每一句话拆开看都很合理。但把它们串起来当成"不需要开发"的证据，就漏掉了七层现实。下面一层一层看。
+  </p>
+</div>
+
+<div class="rebuttals">
+
+  <!-- REB 1 -->
+  <div class="reb">
+    <div class="reb-num">01</div>
+    <div class="reb-claim">
+      <div class="tag">他的论点</div>
+      <div class="headline">"美团、滴滴、支付宝、微信等提前做点注册激活简化就行。"</div>
+      <div class="quote">隐含假设：注册是一件可以"批量预先完成"的事。</div>
+    </div>
+    <div class="reb-answer">
+      <div class="tag">现实反驳</div>
+      <div class="headline">实名制 + 反洗钱风控下，"预注册账号"根本不存在。</div>
+      <p>中国居民注册微信 / 支付宝需要中国银行账户 + 本地手机号 + 身份证号。外国居民必须提供护照详情 + 护照信息页扫描件，支付宝甚至一度需要人脸识别，失败时还要手持护照拍照做人工审核。</p>
+      <p>你不可能"预先帮某个游客注册好"——因为实名制必须绑定那个人。批量注册的"通用账号"会在风控下几小时内封禁。</p>
+      <div class="cite">
+        <strong>关键约束：</strong>外国人用移动支付超过阈值必须提交护照等资料做身份审核。真正能用的账号必须绑定<strong>这个具体租户的护照 + 信用卡</strong>——这恰恰是"1 分钟下柜台即用"的核心技术挑战。
+        <span class="srctag">来源：Marketplace / 中国政府网 / Trip.com 官方指引</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REB 2 -->
+  <div class="reb">
+    <div class="reb-num">02</div>
+    <div class="reb-claim">
+      <div class="tag">他的论点</div>
+      <div class="headline">"预装 App 后给游客就行，不需要再做开发。"</div>
+      <div class="quote">隐含假设：下柜台即可使用。</div>
+    </div>
+    <div class="reb-answer">
+      <div class="tag">现实反驳</div>
+      <div class="headline">按他的方案，游客在柜台要走 6 – 10 分钟的手工流程。</div>
+      <p>即使手机已预装 App，游客仍必须：<strong>① 接收本国号 SMS 验证码 → ② 绑定 Visa/Mastercard → ③ 人脸识别 / 护照上传 → ④ 激活 VPN → ⑤ 逐个登录美团、滴滴并绑定支付</strong>。</p>
+      <p>真实案例：一位美国用户在<em>自己家里、有稳定网络、有充裕时间</em>的情况下，配置微信 + 支付宝花了 10 分钟，期间 Mastercard 能绑支付宝却绑不了微信，需要第二张卡，还遇到过只有中文指引的步骤。</p>
+      <div class="cite">
+        <strong>结论：</strong>没有一个专属 App 做封装 / 引导 / OCR 自动填表 / 统一支付 / 客服介入，"1 分钟下柜台即用"<strong>做不到</strong>。高峰航班落地（一架宽体机 300 人）时，柜台会变成运营灾难。
+        <span class="srctag">来源：Marketplace 实测报告，2024-09</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REB 3 -->
+  <div class="reb">
+    <div class="reb-num">03</div>
+    <div class="reb-claim">
+      <div class="tag">他的论点</div>
+      <div class="headline">"再增加预设一个 VPN 可供他们查看国际网络。"</div>
+      <div class="quote">隐含假设：VPN 是一个"装上就能用"的工具。</div>
+    </div>
+    <div class="reb-answer">
+      <div class="tag">现实反驳</div>
+      <div class="headline">这句话同时踩中三个雷：技术、法律、运营。</div>
+      <p><strong>技术：</strong>VPN 进入中国后应用商店和 VPN 官网大多被墙，配置极其困难。一旦预装的 VPN 因为 GFW 升级而失效，你无法从境内推送更新——因为你的管理后台本身也在墙外。</p>
+      <p><strong>技术升级：</strong>2025 年后河南等省份本地 DPI 加强，封锁域名数是全国平均的 5 倍。SNI / ESNI 过滤已进入 DPI 工具箱。任何静态预装方案注定会坏。</p>
+      <p><strong>法律：</strong>2026 年对未授权 VPN 提供商的监管收紧。合规 VPN 必须工信部许可。</p>
+      <div class="cite">
+        <strong>致命一击：</strong>个人游客用 VPN 在灰色地带。但一家企业给 1,000 台租赁手机预装 VPN —— 你就是<strong>"提供 VPN 服务的商业主体"</strong>，这是明确违规。要合法运营，你必须自建 VPN 技术栈 + 合规兜底 + 热更新通道——这全部需要软件开发。
+        <span class="srctag">来源：NordVPN 官方报告 / Trip.com 合规说明 / gfw.report 2026 更新</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REB 4 -->
+  <div class="reb">
+    <div class="reb-num">04</div>
+    <div class="reb-claim">
+      <div class="tag">他的论点</div>
+      <div class="headline">"只需要提供预设版手机租赁业务。"</div>
+      <div class="quote">没有提到：归还、丢失、越狱、数据合规。</div>
+    </div>
+    <div class="reb-answer">
+      <div class="tag">现实反驳</div>
+      <div class="headline">他的方案完全没有回答运营层面的四个关键问题。</div>
+      <p>① 游客不归还怎么办？ ② 游客弄丢了怎么办？数据合规怎么处理？ ③ 游客拆机装自己 SIM 怎么办？ ④ 游客越狱 / 刷机怎么办？</p>
+      <p>这四个问题都需要同一套东西：<strong>MDM 管理系统 + 设备状态心跳 + 远程锁定 + 远程擦除 + 合规审计日志</strong>。中国个人信息保护法（PIPL）对外国人数据出境的管控甚至比泰国 PDPA 更严——所有交易数据、位置、通话、照片都必须本地化存储 + 审计。</p>
+      <div class="cite">
+        <strong>成本现实：</strong>仅 MDM + 远程擦除 + PIPL 合规审计这一套基础设施，开发 + 首年运营的成本就已经<strong>接近或超过他说的"200 万全部预算"</strong>。
+        <span class="srctag">对照：Bert 泰国项目已识别 MDM 为核心技术组件</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REB 5 -->
+  <div class="reb">
+    <div class="reb-num">05</div>
+    <div class="reb-claim">
+      <div class="tag">他的论点</div>
+      <div class="headline">"这个市场需求是存在的，但用不了 500 万，200 万足够。"</div>
+      <div class="quote">隐含结论：这是一门小生意。</div>
+    </div>
+    <div class="reb-answer">
+      <div class="tag">现实反驳</div>
+      <div class="headline">他大大低估了市场规模。这是一个潜在十亿级的赛道。</div>
+      <p>2025 年：<strong>3,008 万外国人免签入境 + 1.5 亿入境游客总人次 + $130B 消费 + ¥800 亿移动支付消费</strong>。文旅部 2027 目标 5,000 万免签。</p>
+      <p>中国政府在 2024–2026 年密集出台外国人支付便利化政策：支付宝服务语言从 2 种扩展到 16 种，单笔上限从 $1,000 提升到 $5,000，年累计从 $10,000 提升到 $50,000。<strong>这是官方在主动给这个赛道让路。</strong></p>
+      <p>IShowSpeed、MrBeast、甲亢哥等头部网红 2024–2025 年集体直播"China Travel"——这个市场已经被 YouTube / TikTok 头部流量<strong>免费背书</strong>为真实痛点。</p>
+      <div class="cite">
+        <strong>结论：</strong>如果你只想做 200 万的小生意，他的方案可行。但这是一个每年 3,000 万潜在用户、官方背书、头部网红引流的大市场。<strong>小打小闹和做成大生意的成本结构完全不同。</strong>
+        <span class="srctag">来源：中国国家移民局 / 文旅部 / 中国政府网 / Tourism Review 2025 年报</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REB 6 -->
+  <div class="reb">
+    <div class="reb-num">06</div>
+    <div class="reb-claim">
+      <div class="tag">他的论点</div>
+      <div class="headline">"完全不需要开发什么。"</div>
+      <div class="quote">他把 MVP 成本等同于业务总成本。</div>
+    </div>
+    <div class="reb-answer">
+      <div class="tag">现实反驳</div>
+      <div class="headline">他在用 MVP 的预算定义整个生意。这是最严重的一步误判。</div>
+      <p>正确的三段论不是"MVP 不需要开发 → 所以这个生意不需要开发"。</p>
+      <p>正确的三段论应该是："<strong>MVP 不需要开发</strong> → 用 MVP 验证归还率 / 损失率 / 支付匹配率 → <strong>规模化阶段必须开发</strong>，因为护城河不在硬件里。"</p>
+      <p>Bert 你在泰国项目里已经写下过这句洞察：<em>"银行 / 本地支付集成是最难的问题，是主要的竞争护城河。先验证便宜的假设，再投资贵的基础设施。"</em> —— 这条逻辑在中国入境市场同样成立。</p>
+      <div class="cite">
+        <strong>关键识别：</strong>他说的"不需要开发 App"=等同于说<strong>"不需要壁垒"</strong>。硬件 OPPO 卖给谁都一样。壁垒在激活自动化、支付编排、翻译集成、运营数据闭环、品牌信任——全部由软件 + 数据堆出。
+        <span class="srctag">对照：Bert 泰国项目核心洞察</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REB 7 -->
+  <div class="reb">
+    <div class="reb-num">07</div>
+    <div class="reb-claim">
+      <div class="tag">他的论点</div>
+      <div class="headline">"找一两家运营商合作，他们出硬件。"</div>
+      <div class="quote">隐含假设：运营商愿意以单纯代工身份合作。</div>
+    </div>
+    <div class="reb-answer">
+      <div class="tag">现实反驳</div>
+      <div class="headline">如果这门生意如此简单，运营商为什么不自己做？</div>
+      <p>移动 / 电信有：硬件、SIM、机场渠道、支付通道合作、合规资质。他们不做这个生意只有一个原因：<strong>看不上 200 万级的小生意</strong>。</p>
+      <p>如果你采用朋友的方案（无软件壁垒 + 依赖运营商硬件），一旦业务被证明可行，运营商会在 6 个月内自己下场，或者把你换成别的代理。你没有任何谈判筹码。</p>
+      <p>同理，携程、Trip.com、飞猪只要看到这个赛道数据起来，会立刻用自家流量 + 支付体系降维打击。</p>
+      <div class="cite">
+        <strong>反向推论：</strong>你必须拥有他们没有的东西——<strong>游客侧的端到端软件体验 + 外国用户数据 + 品牌口碑</strong>。这三样都必须自己开发和沉淀。否则这个生意天生就是运营商的，不是你的。
+        <span class="srctag">基本商业逻辑：护城河在谁手里，生意就归谁。</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PULL QUOTE -->
+<div class="pullquote">
+  "预装一台手机"是家电生意。<br>
+  <em>"让外国人下飞机 1 分钟就能生活"</em> 是一门软件生意。<br>
+  <span class="attr">—— 两件事差了一个数量级的成本和壁垒</span>
+</div>
+
+<!-- PART II -->
+<div class="sec-head">
+  <div class="no">PART II · 真实成本</div>
+  <h2>三阶段成本结构<br>揭示 200 万只是起点。</h2>
+  <p class="lead">
+    朋友的 200 万不是瞎估，但他把 MVP 的数字当成了业务总预算。按你泰国项目的"风险排序"方法论，这门生意有三个阶段——每个阶段的成本结构完全不同。
+  </p>
+</div>
+
+<!-- COST TABLE -->
+<div class="cost-box">
+  <h3><span>阶段化投入测算</span><span class="side">单位：人民币</span></h3>
+  <div class="cost-table">
+    <div class="hd">阶段</div>
+    <div class="hd">核心工作</div>
+    <div class="hd">预算量级</div>
+    <div class="hd">关键问题</div>
+
+    <div class="stage mvp">Stage 1 · MVP 试点</div>
+    <div>100 – 300 台预装手机 + 1 个机场柜台 + 人工激活 + Visa 代收款</div>
+    <div class="num">¥200 万<div class="tiny">（=朋友的方案）</div></div>
+    <div>归还率？损失率？游客愿付多少钱？</div>
+
+    <div class="stage mid">Stage 2 · 规模化</div>
+    <div>自建 MDM + OCR 激活引擎 + 多语言客服 + PIPL 合规审计 + 扩张到 5 – 10 个机场</div>
+    <div class="num">¥2,000 万+<div class="tiny">约 10× MVP</div></div>
+    <div>激活时间能不能压到 1 分钟？单店 UE 能否为正？</div>
+
+    <div class="stage moat">Stage 3 · 护城河</div>
+    <div>自研"入境通"App（支付编排 + 实时翻译 + AI 客服 + 游客画像）+ 与微信 / 支付宝深度接口合作</div>
+    <div class="num">¥5,000 万+<div class="tiny">真正建壁垒</div></div>
+    <div>在运营商或 OTA 下场前完成哪些独占性资产？</div>
+  </div>
+</div>
+
+<p style="font-family:'Noto Sans SC',sans-serif;font-size:13px;color:var(--muted);line-height:1.7;margin:0 0 32px;max-width:840px">
+  <strong style="color:var(--ink)">读表要点：</strong>
+  三个阶段不是"做完一个再做下一个"，而是 Stage 1 的数据会决定 Stage 2 的融资 ask 和 Stage 3 的 product roadmap。
+  如果朋友的方案是 Stage 1 的子集，它就是对的；如果它被当成 Stage 3 的终局，它就是错的。
+</p>
+
+<!-- VS BLOCK -->
+<div class="sec-head" style="margin-top:64px">
+  <div class="no">PART III · 两种思维模型</div>
+  <h2>他在卖 SIM 卡，<br>你在做一个新市场的基础设施。</h2>
+  <p class="lead">
+    这不是方案好坏的争论——而是对"入境通是什么"的根本性分歧。
+  </p>
+</div>
+
+<div class="vs-block">
+  <div class="vs-col left">
+    <h4>朋友的思维模型</h4>
+    <div class="title">"租赁生意"</div>
+    <ul>
+      <li>核心资产是<strong>硬件</strong>（预装手机）</li>
+      <li>壁垒来自<strong>供应链</strong>（和运营商关系）</li>
+      <li>价值来自<strong>一次性租赁费</strong></li>
+      <li>竞争护城河 = <strong>几乎没有</strong></li>
+      <li>运营复杂度 = <strong>低</strong>（类似机场行李寄存）</li>
+      <li>规模天花板 = <strong>2 – 3 亿营收</strong></li>
+      <li>被收购价值 = <strong>低</strong>（资产 + 现金流估值）</li>
+    </ul>
+  </div>
+
+  <div class="vs-divider">vs.</div>
+
+  <div class="vs-col right">
+    <h4>你的思维模型</h4>
+    <div class="title">"入境基础设施"</div>
+    <ul>
+      <li>核心资产是<strong>软件栈 + 用户数据</strong></li>
+      <li>壁垒来自<strong>自动化激活 + 支付编排</strong></li>
+      <li>价值来自<strong>租赁 + 交易抽成 + 数据</strong></li>
+      <li>竞争护城河 = <strong>激活时间 / 游客口碑</strong></li>
+      <li>运营复杂度 = <strong>中高</strong>（类似 Uber 早期）</li>
+      <li>规模天花板 = <strong>10 亿 – 100 亿 GMV</strong></li>
+      <li>被收购价值 = <strong>高</strong>（战略资产 + 入境入口）</li>
+    </ul>
+  </div>
+</div>
+
+<p style="font-family:'Noto Sans SC',sans-serif;font-size:13px;color:var(--muted);line-height:1.7;margin:32px 0 0;max-width:840px">
+  <strong style="color:var(--ink)">关键问题：</strong>
+  朋友的 200 万方案<em>能不能做</em>？能。<strong style="color:var(--red-dark)">但它做不成左边那个生意，更做不成右边那个生意——它做的是"机场 SIM 卡摊位 Plus"，一门做到最后被运营商回收的低利润小生意。</strong>
+</p>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="tag">结论 · The Final Word</div>
+  <h3>
+    你朋友说对了<em>第一步怎么走</em>。<br>
+    但他没看到<em>第二步走不了的话，第一步根本不值得走</em>。<br><br>
+    200 万的方案 = MVP 起点。<br>
+    不是终局，是<em>风险验证</em>；不是生意，是<em>实验</em>。
+  </h3>
+  <div class="signer">
+    <span class="line"></span>
+    <span>Bert · 2026 年 4 月 · 内部战略备忘录</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="sources">
+    <strong>数据来源</strong>
+    中国国家移民局 (2025–2026) · 中国文旅部 2025 年报 · 中国政府网支付便利化政策 (2024-04) · Marketplace.org 外国人中国支付实测 (2024-09) · NordVPN 合规说明 (2026-02) · Trip.com 2026 年中国旅行指南 · Tourism Review 2025 入境报告 · South China Morning Post 免签政策系列 · VisaVerge 2026 数据 · ApplyForChina 2025 支付指南
+  </div>
+  <div style="text-align:right">
+    <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;font-style:italic;color:var(--orange-dark)">入境通</div>
+    <div style="font-size:10px;letter-spacing:0.15em;margin-top:2px">Strategic Memo №01</div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

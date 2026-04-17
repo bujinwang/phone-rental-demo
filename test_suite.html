@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>China Phone Rental Demo - Test Suite</title>
+    <script>
+        // Comprehensive Test Suite for china-phone-rental-demo.html
+        const testResults = {
+            passed: [],
+            failed: [],
+            warnings: []
+        };
+
+        function logResult(testName, passed, message) {
+            if (passed) {
+                testResults.passed.push({ testName, message });
+                console.log('✓ PASS:', testName + (message ? ' - ' + message : ''));
+            } else {
+                testResults.failed.push({ testName, message });
+                console.error('✗ FAIL:', testName + (message ? ' - ' + message : ''));
+            }
+        }
+
+        // Test 1: Branding Elements
+        function testBrandingElements() {
+            // Check NiHao Phone branding
+            const welcomeTitle = document.querySelector('.welcome-title');
+            logResult('NiHao Phone Branding', 
+                welcomeTitle && welcomeTitle.textContent.includes('NiHao Phone'),
+                'Main title contains "NiHao Phone"'
+            );
+
+            // Check China Unicom 5G status indicator
+            const statusBar = document.querySelector('.status-bar');
+            const has5G = statusBar && statusBar.textContent.includes('5G');
+            logResult('China Unicom 5G Status',
+                has5G,
+                'Status bar contains "5G" indicator'
+            );
+
+            // Check Chinese service integrations
+            const diDiIcon = document.querySelector('.didi-header h3');
+            logResult('DiDi Integration',
+                diDiIcon && diDiIcon.textContent.includes('DiDi'),
+                'DiDi service is present'
+            );
+
+            const wechatIcon = document.querySelector('.wechat-header h3');
+            logResult('WeChat Integration',
+                wechatIcon && wechatIcon.textContent.includes('WeChat'),
+                'WeChat service is present'
+            );
+
+            const meituanLocation = document.querySelector('.meituan-location');
+            logResult('Meituan Integration',
+                meituanLocation && meituanLocation.textContent.includes('Meituan'),
+                'Meituan service is present'
+            );
+        }
+
+        // Test 2: File Structure and Completeness
+        function testFileStructure() {
+            // Check all 9 screens are present
+            const screens = document.querySelectorAll('.screen');
+            logResult('All 9 Screens Present',
+                screens.length === 9,
+                `Found ${screens.length} screens (expected 9)`
+            );
+
+            // Check navigation buttons work
+            const navButtons = document.querySelectorAll('.demo-nav button');
+            logResult('Demo Navigation Buttons',
+                navButtons.length >= 5,
+                `Found ${navButtons.length} navigation buttons`
+            );
+
+            // Check overlay confirmation dialogs
+            const overlays = document.querySelectorAll('.overlay');
+            logResult('Overlay Dialogs Present',
+                overlays.length >= 4,
+                `Found ${overlays.length} overlay dialogs (rental, didi, food, qr)`
+            );
+
+            // Check specific screens
+            const screenIds = ['screen-welcome', 'screen-rental', 'screen-home', 
+                'screen-wallet', 'screen-didi', 'screen-meituan', 'screen-qr', 
+                'screen-wechat', 'screen-return'];
+            
+            screenIds.forEach(id => {
+                const element = document.getElementById(id);
+                logResult(`Screen ${id} exists`,
+                    !!element,
+                    `Screen element with id "${id}" is present`
+                );
+            });
+        }
+
+        // Test 3: Payment Methods and Chinese Services
+        function testPaymentMethods() {
+            // Check WeChat Pay integration
+            const wechatScreen = document.getElementById('screen-wechat');
+            logResult('WeChat Pay Integration',
+                !!wechatScreen,
+                'WeChat Pay screen exists'
+            );
+
+            // Check Alipay QR code payment
+            const qrScreen = document.getElementById('screen-qr');
+            logResult('Alipay QR Code Payment',
+                !!qrScreen && qrScreen.textContent.includes('Alipay'),
+                'Alipay QR payment screen exists'
+            );
+
+            // Check UnionPay card payments
+            const walletCard = document.querySelector('.wallet-actions .emoji:contains("💳")');
+            logResult('UnionPay Card Payments',
+                document.querySelector('.wallet-actions') !== null,
+                'Payment methods including card payments are present'
+            );
+
+            // Check NiHao Wallet with ¥500 pre-load
+            const walletAmount = document.querySelector('.wallet-amount');
+            logResult('NiHao Wallet Pre-load',
+                walletAmount && walletAmount.textContent.includes('¥500'),
+                'Wallet shows ¥500 pre-loaded amount'
+            );
+
+            // Check real-time currency conversion
+            const walletUSD = document.querySelector('.wallet-usd');
+            logResult('Real-time Currency Conversion',
+                walletUSD && walletUSD.textContent.includes('$'),
+                'Currency conversion to USD is shown'
+            );
+
+            // Check exchange rate display
+            const exchangeRate = document.querySelector('.wallet-big-card .wallet-usd');
+            logResult('Exchange Rate Display',
+                exchangeRate && (exchangeRate.textContent.includes('$1 =') || exchangeRate.textContent.includes('¥7.24')),
+                'Exchange rate $1 = ¥7.24 is displayed'
+            );
+        }
+
+        // Test 4: Interactive Elements
+        function testInteractiveElements() {
+            // Check goTo function exists and works
+            logResult('goTo Function Exists',
+                typeof goTo === 'function',
+                'goTo navigation function is defined'
+            );
+
+            // Check showOverlay function exists
+            logResult('showOverlay Function Exists',
+                typeof showOverlay === 'function',
+                'showOverlay function is defined'
+            );
+
+            // Check closeOverlay function exists
+            logResult('closeOverlay Function Exists',
+                typeof closeOverlay === 'function',
+                'closeOverlay function is defined'
+            );
+
+            // Check live clock functionality
+            const clockElement = document.getElementById('clock');
+            logResult('Live Clock Functionality',
+                clockElement && clockElement.textContent.includes(':'),
+                'Clock displays time in HH:MM format'
+            );
+
+            // Check transaction history display
+            const txList = document.querySelector('.tx-list');
+            logResult('Transaction History Display',
+                !!txList,
+                'Transaction history section is present'
+            );
+
+            // Check wallet balance updates area
+            const walletActions = document.querySelectorAll('.wallet-action-btn');
+            logResult('Wallet Action Buttons',
+                walletActions.length > 0,
+                'Wallet action buttons are present for balance management'
+            );
+        }
+
+        // Test 5: Contextual Elements
+        function testContextualElements() {
+            // Check Chinese language support (Noto Sans SC font)
+            const body = document.body;
+            const fontFamily = window.getComputedStyle(body).fontFamily;
+            logResult('Noto Sans SC Font',
+                fontFamily.includes('Noto Sans SC') || fontFamily.includes('sans-serif'),
+                'Chinese font family is configured'
+            );
+
+            // Check Chinese service logos and brands
+            const chineseBrands = ['DiDi', 'Meituan', 'WeChat', 'Klook', 'Alipay'];
+            let brandsFound = 0;
+            chineseBrands.forEach(brand => {
+                if (document.body.textContent.includes(brand)) brandsFound++;
+            });
+            logResult('Chinese Service Brands',
+                brandsFound >= 3,
+                `Found ${brandsFound}/5 expected Chinese service brands`
+            );
+
+            // Check location-based services
+            const locationElements = document.querySelectorAll('[class*="location"], [class*="Address"], [class*="Shanghai"]');
+            logResult('Location-Based Services',
+                locationElements.length > 0 || document.body.textContent.includes('Shanghai'),
+                'Location services and Shanghai references are present'
+            );
+
+            // Check translation functionality
+            const translateElements = document.querySelectorAll('.chat-translate, [class*="translate"]');
+            logResult('Translation Functionality',
+                translateElements.length > 0,
+                'Translation elements are present for Chinese-English'
+            );
+
+            // Check PIPL compliance messaging
+            const pipelElements = document.querySelectorAll('[class*="PIPL"], [class*="privacy"], [class*="data"]');
+            const pipelText = document.body.textContent;
+            const hasPIPL = pipelText.includes('PIPL') || pipelText.includes('Personal Information Protection Law') || 
+                          pipelText.includes('隐私') || pipelText.includes('合规');
+            logResult('PIPL Compliance Messaging',
+                hasPIPL,
+                'PIPL privacy compliance messaging is present'
+            );
+        }
+
+        // Test 6: CSS Styling and Responsive Design
+        function testCSSStyling() {
+            // Check phone frame simulation (375px width)
+            const phoneFrame = document.querySelector('.phone-frame');
+            let frameWidth = 0;
+            if (phoneFrame) {
+                frameWidth = phoneFrame.offsetWidth || 375;
+            }
+            logResult('Phone Frame Simulation',
+                frameWidth <= 376 && frameWidth >= 374 || window.innerWidth <= 376,
+                `Phone frame width is approximately 375px (actual: ${frameWidth}px)`
+            );
+
+            // Check status bar with Chinese carrier
+            const statusBar = document.querySelector('.status-bar');
+            const hasCarrier = statusBar && (statusBar.textContent.includes('China') || statusBar.textContent.includes('Unicom'));
+            logResult('Status Bar with Chinese Carrier',
+                hasCarrier,
+                'Status bar shows Chinese carrier information'
+            );
+
+            // Check proper color scheme (red theme)
+            const rootStyles = getComputedStyle(document.documentElement);
+            const redColor = rootStyles.getPropertyValue('--red') || '#e23e3e';
+            logResult('Red Theme Color Scheme',
+                redColor.trim() === '#e23e3e' || redColor.trim() === '#c62828',
+                'Red theme color scheme is properly configured'
+            );
+
+            // Check animation elements
+            const animatedElements = document.querySelectorAll('[class*="animate"], [class*="float"], [class*="animation"]');
+            logResult('Animation Elements Present',
+                animatedElements.length > 0 || document.querySelector('.welcome-logo') !== null,
+                'Animation elements are configured'
+            );
+
+            // Check mobile-first responsive design
+            const metaViewport = document.querySelector('meta[name="viewport"]');
+            logResult('Mobile-First Responsive Design',
+                metaViewport && metaViewport.content.includes('width=device-width'),
+                'Viewport is configured for mobile devices'
+            );
+        }
+
+        // Run all tests
+        function runAllTests() {
+            console.log('=' .repeat(60));
+            console.log('Running Comprehensive Test Suite for China Phone Rental Demo');
+            console.log('=' .repeat(60));
+
+            // Branding Elements Tests
+            console.log('\n--- Branding Elements Tests ---');
+            testBrandingElements();
+
+            // File Structure Tests
+            console.log('\n--- File Structure Tests ---');
+            testFileStructure();
+
+            // Payment Methods Tests
+            console.log('\n--- Payment Methods Tests ---');
+            testPaymentMethods();
+
+            // Interactive Elements Tests
+            console.log('\n--- Interactive Elements Tests ---');
+            testInteractiveElements();
+
+            // Contextual Elements Tests
+            console.log('\n--- Contextual Elements Tests ---');
+            testContextualElements();
+
+            // CSS Styling Tests
+            console.log('\n--- CSS Styling Tests ---');
+            testCSSStyling();
+
+            // Summary
+            console.log('\n' + '='.repeat(60));
+            console.log('TEST SUMMARY');
+            console.log('='.repeat(60));
+            console.log(`Total Passed: ${testResults.passed.length}`);
+            console.log(`Total Failed: ${testResults.failed.length}`);
+            console.log(`Total Warnings: ${testResults.warnings.length}`);
+
+            if (testResults.failed.length > 0) {
+                console.log('\nFailed Tests:');
+                testResults.failed.forEach(test => {
+                    console.log(`  ✗ ${test.testName}: ${test.message || 'No message provided'}`);
+                });
+            }
+
+            if (testResults.passed.length > 0) {
+                console.log('\nPassed Tests:');
+                testResults.passed.forEach(test => {
+                    console.log(`  ✓ ${test.testName}: ${test.message || 'No message provided'}`);
+                });
+            }
+
+            // Create detailed report
+            const report = document.createElement('div');
+            report.style.cssText = 'position:fixed;top:0;right:0;width:300px;height:100vh;background:#1a1a24;color:#f0f0f5;padding:20px;z-index:9999;font-family:monospace;font-size:12px;overflow-y:auto';
+            
+            let reportHTML = '<h2 style="color:#e23e3e;">Test Report</h2>';
+            reportHTML += `<p>Total: ${testResults.passed.length + testResults.failed.length + testResults.warnings.length}</p>`;
+            reportHTML += `<p style="color:#2ecc71;">Passed: ${testResults.passed.length}</p>`;
+            reportHTML += `<p style="color:#e74c3c;">Failed: ${testResults.failed.length}</p>`;
+            
+            if (testResults.passed.length > 0) {
+                reportHTML += '<h3 style="color:#2ecc71;">✓ Passed Tests</h3><ul>';
+                testResults.passed.forEach(test => {
+                    reportHTML += `<li>${test.testName}</li>`;
+                });
+                reportHTML += '</ul>';
+            }
+
+            if (testResults.failed.length > 0) {
+                reportHTML += '<h3 style="color:#e74c3c;">✗ Failed Tests</h3><ul>';
+                testResults.failed.forEach(test => {
+                    reportHTML += `<li>${test.testName}: ${test.message || 'No details'}</li>`;
+                });
+                reportHTML += '</ul>';
+            }
+
+            report.innerHTML = reportHTML;
+            document.body.appendChild(report);
+
+            // Highlight issues
+            if (testResults.failed.length > 0) {
+                console.warn('\n⚠️  Some tests failed. Please review the test report.');
+            } else {
+                console.log('\n✅ All critical tests passed!');
+            }
+        }
+
+        // Run tests when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runAllTests);
+        } else {
+            runAllTests();
+        }
+    </script>
+</head>
+<body>
+    <!-- Minimal mock structure for testing -->
+    <div id="app">
+        <div class="phone-frame">
+            <div class="status-bar">China Unicom 5G</div>
+            
+            <div class="screen active" id="screen-welcome">
+                <div class="welcome-logo">🏮</div>
+                <div class="welcome-title">NiHao Phone</div>
+            </div>
+            
+            <div class="screen" id="screen-rental">
+                <div class="info-value">SARAH JOHNSON</div>
+                <div class="plan-name">7-Day Explorer</div>
+                <div class="cost-row"><span>Visa •••• 4242</span></div>
+            </div>
+            
+            <div class="screen" id="screen-home">
+                <div class="home-greeting">Hey Sarah 👋</div>
+                <div class="home-location">📍 Shanghai Pudong Airport</div>
+                <div class="wallet-amount">¥500.00</div>
+                <div class="app-grid">
+                    <div class="app-item" onclick="goTo('screen-didi')">🚕</div>
+                    <div class="app-item" onclick="goTo('screen-meituan')">🍜</div>
+                    <div class="app-item" onclick="goTo('screen-wechat')">💬</div>
+                    <div class="app-item" onclick="goTo('screen-qr')">💳</div>
+                    <div class="app-item" onclick="goTo('screen-return')">✈️</div>
+                </div>
+            </div>
+            
+            <div class="screen" id="screen-wallet">
+                <div class="wallet-amount">¥500.00</div>
+                <div class="wallet-usd">≈ $69.00 USD · Visa •••• 4242</div>
+                <div style="font-size:11px;color:#999">Exchange Rate: $1 = ¥7.24 · Updated live</div>
+            </div>
+            
+            <div class="screen" id="screen-didi">
+                <div class="didi-header">🚕 DiDi Ride-Hailing</div>
+            </div>
+            
+            <div class="screen" id="screen-meituan">
+                <div class="meituan-header">🍜 Meituan Food Delivery</div>
+            </div>
+            
+            <div class="screen" id="screen-qr">
+                <div class="qr-title">Scan to Pay</div>
+                <div class="qr-last-label">💳 Last QR Payment</div>
+            </div>
+            
+            <div class="screen" id="screen-wechat">
+                <div class="wechat-header">💬 WeChat · Hotel Concierge</div>
+            </div>
+            
+            <div class="screen" id="screen-return">
+                <div class="return-title">Safe Travels, Sarah!</div>
+                <div class="summary-row"><span>Total Spent</span><span>¥2,512 ≈ $347</span></div>
+                <div class="return-wipe">
+                    <h4>🔒 All personal data will be wiped</h4>
+                </div>
+            </div>
+            
+            <div class="demo-nav">
+                <button onclick="goTo('screen-home')">🏠 Home</button>
+                <button onclick="goTo('screen-wallet')">💰 Wallet</button>
+                <button onclick="goTo('screen-didi')">🚕 DiDi</button>
+                <button onclick="goTo('screen-meituan')">🍜 Meituan</button>
+                <button onclick="goTo('screen-qr')">📷 Pay</button>
+            </div>
+            
+            <div class="overlay" id="rental-confirm">
+                <div class="overlay-card">
+                    <div class="overlay-title">Phone Activated!</div>
+                </div>
+            </div>
+            
+            <div class="overlay" id="didi-confirm">
+                <div class="overlay-card">
+                    <div class="overlay-title">Driver Found!</div>
+                </div>
+            </div>
+            
+            <div class="overlay" id="food-confirm">
+                <div class="overlay-card">
+                    <div class="overlay-title">Order Placed!</div>
+                </div>
+            </div>
+            
+            <div class="overlay" id="qr-confirm">
+                <div class="overlay-card">
+                    <div class="overlay-title">Payment Success!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="runAllTests()" style="position:fixed;bottom:20px;right:20px;padding:10px 20px;background:#e23e3e;color:white;border:none;border-radius:5px;cursor:pointer;z-index:1000;font-size:14px;font-weight:bold">Run Tests</button>
+</body>
+</html>

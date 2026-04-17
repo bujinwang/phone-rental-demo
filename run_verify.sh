@@ -1,0 +1,1 @@
+bash /Users/bujin/Documents/Projects/PhoneRental/verify_manual.sh

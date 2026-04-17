@@ -1,0 +1,1 @@
+cd /Users/bujin/Documents/Projects/PhoneRental && python3 test_runner.py
